@@ -19,12 +19,12 @@
 # <pep8-80 compliant>
 
 bl_info = {
-    "name": "Blender Timeline Marker Format (.bmf)",
-    "author": "Troy James Sobotka",
-    "version": (1,0,1),
+    "name": "Audacity Labels (.txt)",
+    "author": "Troy James Sobotka, Spencer Alves",
+    "version": (1,0,0),
     "blender": (2, 6, 2),
     "location": "Timeline Marker > Marker Import / Export",
-    "description": "Import/Export Blender Timeline Markers",
+    "description": "Import/Export Audacity label tracks as Blender timeline markers",
     "warning": "",
     "wiki_url": "",
     "tracker_url": "",
@@ -50,13 +50,13 @@ from bpy.props import (StringProperty,
                        FloatProperty)
 
 class ImportMarkers(Operator, ImportHelper):
-    '''Import Blender timeline markers from file. '''
+    '''Import Blender timeline markers from Audacity. '''
     bl_idname = "marker.import"
-    bl_label = "Import Blender timeline markers from file"
+    bl_label = "Import Blender timeline markers from Audacity"
 
-    filename_ext = ".bmf"
+    filename_ext = ".txt"
 
-    filter_glob = StringProperty(default="*.bmf", options={'HIDDEN'})
+    filter_glob = StringProperty(default="*.txt", options={'HIDDEN'})
 
     @classmethod
     def poll(cls, context):
@@ -68,9 +68,9 @@ class ImportMarkers(Operator, ImportHelper):
                                           self.filepath)
 
 class ExportMarkers(Operator, ExportHelper):
-    '''Export Blender timeline markers to file. '''
+    '''Export Blender timeline markers to Audacity. '''
     bl_idname = "marker.export"
-    bl_label = "Export Blender timeline markers to file"
+    bl_label = "Export Blender timeline markers to Audacity"
 
     filename_ext = ".bmf"
     filter_glob = StringProperty(default="*.bmf", options={'HIDDEN'})
@@ -94,8 +94,8 @@ class MT_ImportExportMarkers(Menu):
     bl_label = "Marker Import / Export"
 
     def draw(self, context):
-        self.layout.operator(ImportMarkers.bl_idname, text="Import Blender BMF (.bmf)")
-        self.layout.operator(ExportMarkers.bl_idname, text="Export Blender BMF (.bmf)")
+        self.layout.operator(ImportMarkers.bl_idname, text="Import Audacity Labels (.txt)")
+        self.layout.operator(ExportMarkers.bl_idname, text="Export Audacity Labels (.txt)")
 
 def menu_importexport(self, context):
     self.layout.menu("MT_ImportExportMarkers")

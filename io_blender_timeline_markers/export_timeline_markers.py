@@ -22,29 +22,19 @@
 
 import bpy
 
-def save_markers(context, filepath, selected_only): # , y_up, rot_ord):
+def save_markers(context, filepath, selected_only):
 
     # get the active scene and object
     scene = context.scene
     markers = scene.timeline_markers
+    framerate = scene.render.fps
 
     filehandle = open(filepath, 'w')
-    fw = filehandle.write
-    
+
     for marker in markers:
-        if selected_only:
-            if marker.select == True:
-                # Write the marker's name
-                fw("%s\r" % marker.name)       
-
-                # Write the marker's frame number
-                fw("%i\r" % marker.frame)
-        else:
-            # Write the marker's name
-            fw("%s\r" % marker.name)       
-
-            # Write the marker's frame number
-            fw("%i\r" % marker.frame)
+        if not selected_only or marker.select:
+			time = marker.frame / framerate
+			filehandle.write("{0:.6f}\t{0:.6f}\t{1}".format(time, marker.name))
 
     # after the whole loop close the file
     filehandle.close()

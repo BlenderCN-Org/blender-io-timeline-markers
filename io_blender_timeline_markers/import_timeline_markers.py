@@ -20,22 +20,35 @@
 
 """ This script imports timeline markers from file."""
 
-def read_markers(context, filepath): # , z_up, rot_ord, sensor_width, sensor_height):
+def read_markers(context, filepath):
 
     scene = context.scene
     markers = scene.timeline_markers
+    framerate = scene.render.fps
 
     # read the file
     filehandle = open(filepath, 'r')
 
-    currentline = filehandle.readline().rstrip('\r\n')
-    
     # iterate through the files lines
-    while currentline:
-        marker = markers.new(currentline)
-        marker.frame = int(filehandle.readline().rstrip('\r\n'))
-        currentline = filehandle.readline().rstrip('\r\n')
+    for linenumber, currentline in enumerate(filehandle):
+        lineitems = currentline[:-1].split('\t')
         
+        if len(lineitems) != 3:
+            print("Incorrect format on line {}".format(linenumber+1))
+            continue
+        
+        starttime, endtime, name = lineitems
+        starttime = float(starttime)
+        endtime = float(endtime)
+        
+        marker = markers.new(name)
+        marker.frame = int(round(starttime*framerate))
+        
+        if starttime != endtime:
+            marker = markers.new(name+" (end)")
+            marker.frame = int(round(endtime*framerate))
+        
+
     filehandle.close()
 
     return {"FINISHED"}
