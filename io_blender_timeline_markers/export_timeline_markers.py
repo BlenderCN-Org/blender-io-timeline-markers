@@ -33,8 +33,8 @@ def save_markers(context, filepath, selected_only):
 
     for marker in markers:
         if not selected_only or marker.select:
-			time = marker.frame / framerate
-			filehandle.write("{0:.6f}\t{0:.6f}\t{1}".format(time, marker.name))
+            time = marker.frame / framerate
+            filehandle.write("{0:.6f}\t{0:.6f}\t{1}\n".format(time, marker.name))
 
     # after the whole loop close the file
     filehandle.close()

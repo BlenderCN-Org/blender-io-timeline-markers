@@ -72,8 +72,8 @@ class ExportMarkers(Operator, ExportHelper):
     bl_idname = "marker.export"
     bl_label = "Export Blender timeline markers to Audacity"
 
-    filename_ext = ".bmf"
-    filter_glob = StringProperty(default="*.bmf", options={'HIDDEN'})
+    filename_ext = ".txt"
+    filter_glob = StringProperty(default="*.txt", options={'HIDDEN'})
 
     selected_only = BoolProperty(
             name="Selected only",
